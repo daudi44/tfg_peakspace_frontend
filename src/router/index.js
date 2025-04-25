@@ -2,6 +2,10 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
+    path: '/',
+    redirect: '/login'
+  },
+  {
     path: '/dashboard',
     name: 'Dashboard',
     component: () => import('../pages/Dashboard.vue')
@@ -20,6 +24,16 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: () => import('../pages/Profile.vue')
+  },
+  {
+    path: '/economy',
+    name: 'Economy',
+    component: () => import('../pages/Economy.vue')
+  },
+  {
+    path: '/productivity',
+    name: 'Productivity',
+    component: () => import('../pages/Productivity.vue')
   },
 ]
 

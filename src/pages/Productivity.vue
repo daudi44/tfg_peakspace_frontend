@@ -1,7 +1,17 @@
 <template>
     <div style="margin-top: 130px;">
-      <h1 class="text-2xl font-bold">Productivity</h1>
-      <TimeRecorder />
+      <div style="display: flex; flex-direction: row; gap: 15px;">
+        <div style="display: flex; flex-direction: column; gap: 15px; flex: 2;">
+          <TimeRecorder />
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 15px; flex: 4;"">
+          <p>In progress</p>
+          <p>Not started</p>
+          <p>Finished</p>
+        </div>
+      </div>
+      <p>productivity categories</p>
+      <p>time entries log</p>
     </div>
   </template>
   

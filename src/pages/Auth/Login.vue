@@ -20,8 +20,8 @@
   </template>
   
 <script>
-import { loginUser, getUser } from '../api/auth'
-import { useUserStore } from '../stores/user';
+import { loginUser, getUser } from '../../api/auth'
+import { useUserStore } from '../../stores/user';
 export default {
   name: 'Login',
   data() {

@@ -49,7 +49,6 @@
       width: 100%;
       height: 90px;
       display: flex;
-      margin-bottom: 130px;
   }
   </style>
   

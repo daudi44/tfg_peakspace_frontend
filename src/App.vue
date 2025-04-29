@@ -1,7 +1,6 @@
 <template>
   <div :class="{ 'auth-background': !showHeader }">  
     <Header v-if="showHeader" />
-    <!-- conditionally set padding top if showHeader -->
     <router-view style="padding: 0 30%;" />
     <Footer />
   </div>

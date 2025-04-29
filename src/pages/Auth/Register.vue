@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { registerUser } from '../api/auth'
+import { registerUser } from '../../api/auth'
 export default {
   name: 'Login',
   data() {

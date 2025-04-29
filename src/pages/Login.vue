@@ -1,10 +1,21 @@
 <template>
-    <div class="p-4">
-      <h1 class="text-2xl font-bold">Login</h1>
-      <input type="email" name="email" id="email" placeholder="Email" class="border p-2 mb-4 w-full" v-model="email"/>
-      <input type="password" name="password" id="password" placeholder="Password" class="border p-2 mb-4 w-full" v-model="password"/>
-      <button class="bg-blue-500 text-white p-2 rounded" @click="login">Login</button>
-      <p class="mt-4">Don't have an account? <a href="/register" class="text-blue-500">Register</a></p>
+    <div style="background-color: #545454; color: white; display: flex; justify-content: center; align-items: center;">
+      <div style="display: flex; flex-direction: column; width: 25%; gap: 25px; padding-top: 100px;">
+        <img src="/logo3.svg" alt="Logo" style="height: 226px;"/>
+        <h1 style="font-weight: bold;">Login</h1>
+        <div>
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" placeholder=""  v-model="email"/>
+        </div>
+        <div>
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" placeholder="" v-model="password"/>
+        </div>
+        <div style="justify-content: center; align-items: center; display: flex; flex-direction: column;">
+          <button style="border-radius: 4px; background-color: white; border: none; padding: 10px 10px; cursor: pointer; width: 70%;" @click="login">Login</button>
+          <p><a href="/register" style="color: white; cursor: pointer;">Create an account</a></p>
+        </div>
+      </div>
     </div>
   </template>
   
@@ -41,7 +52,15 @@ export default {
     },
   },
 }
-
-
 </script>
   
+<style scoped>
+input {
+  border-radius: 4px;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  color: white;
+  background-color: #1E1E1E;
+}
+</style>

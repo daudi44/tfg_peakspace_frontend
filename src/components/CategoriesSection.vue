@@ -1,0 +1,121 @@
+<template>
+    <div>
+        <h2>{{ type == 1 ? 'Productivity' : 'Economy' }} Categories</h2>
+        <div style="display: flex; flex-direction: row; gap: 25px; background-color: #2C2C2C; border-radius: 8px; color: white; padding: 0px 15px;">
+            <div v-if="type == 2" style="display: flex; flex-direction: row; gap: 15px; align-items: center;">
+                <h3>Type</h3>
+                <button>Outcomes</button>
+                <button>Subscriptions</button>
+                <button>All</button>
+            </div>
+            <div style="display: flex; flex-direction: row; gap: 15px; align-items: center;">
+                <h3>Period</h3>
+                <button>Today</button>
+                <button>Week</button>
+                <button>Month</button>
+            </div>
+        </div>
+        <div style="background-color: #F1F1F1; border-radius: 8px; padding: 20px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);">
+            <div class="category-grid">
+                <div v-for="category in categories" :key="category.id" style="display: flex; justify-content: space-between; align-items: center; background-color: white;  padding: 5px 15px; border-radius: 8px;">
+                    <h3>{{ category.name }}</h3>
+                    <button @click="deleteCategory(category.id)" style="background-color: red; color: white; padding: 5px 10px;">Delete</button>
+                </div>
+            </div>
+            <div>
+                <h3>Add category</h3>
+                <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <div>
+                        <input type="text" name="categoryName" id="categoryName" placeholder="Name" v-model="newCategoryName"/>
+                        <select name="parentCategory" id="parentCategory" v-model="newCategoryParent">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                    <!-- color picker todo -->
+                    <button @click="addCategory" style="background-color: #5438DC; color: white; padding: 5px 10px;">Add +</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+import { addCategory, deleteCategory, getProductivityCategories, getEconomyCategories } from '../api/general'
+export default {
+    name: 'CategoriesSection',
+    props: {
+        type: {
+            type: Number,
+            required: true,
+        },
+    },
+    data() {
+        return {
+            categories: [],
+            selectedType: null,
+            selectedPeriod: null,
+            showModal: false,
+            newCategoryName: '',
+            newCategoryParent: null,
+        };
+    },
+    mounted() {
+        this.loadCategories();
+    },
+    methods: {
+        loadCategories() {
+            if (this.type == 1) {
+                getProductivityCategories().then((data) => {
+                    this.categories = data.data.categories;
+                });
+            } else if (this.type == 2) {
+                getEconomyCategories().then((data) => {
+                    this.categories = data.data.categories;
+                });
+            }
+        },
+        addCategory() {
+            try{
+                addCategory({
+                    type: this.type,
+                    name: this.newCategoryName,
+                    parent_category_id: this.newCategoryParent
+                }).then((data) => {
+                    console.log('Category added successfully', data);
+                    this.loadCategories();
+                });
+            }catch (error) {
+                console.error('Error adding category:', error);
+            }
+        },
+        deleteCategory(categoryId) {
+            try{
+                deleteCategory({
+                    category_id: categoryId
+                }).then(() => {
+                    console.log('Category deleted successfully');
+                    this.loadCategories();
+                });
+            }catch (error) {
+                console.error('Error deleting category:', error);
+            }
+        },
+    }
+}
+</script>
+<style scoped>
+    button {
+        border-radius: 4px;
+        background-color: white;
+        border: none;
+        margin: 0px;
+        padding: 0px 10px;
+        cursor: pointer;
+        height: fit-content;
+    }
+    .category-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* Dos columnas iguales */
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+</style>

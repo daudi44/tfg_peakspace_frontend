@@ -26,6 +26,23 @@ body {
   font-family: "Josefin Sans", sans-serif;
 }
 
+button {
+  border-radius: 4px;
+  background-color: white;
+  border: none;
+  margin: 0px;
+  padding: 5px 10px;
+  cursor: pointer;
+  height: fit-content;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+  background-color: #F1F1F1;
+}
+
+
+
 .auth-background {
   background-color: #545454;
   min-height: 100vh;

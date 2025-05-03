@@ -117,15 +117,6 @@ export default {
 }
 </script>
 <style scoped>
-    button {
-        border-radius: 4px;
-        background-color: white;
-        border: none;
-        margin: 0px;
-        padding: 0px 10px;
-        cursor: pointer;
-        height: fit-content;
-    }
     .section-container {
       position: relative;
     }

@@ -41,6 +41,10 @@ button:hover {
   background-color: #F1F1F1;
 }
 
+button:disabled {
+  background-color: #E0E0E0;
+  cursor: not-allowed;
+}
 
 
 .auth-background {

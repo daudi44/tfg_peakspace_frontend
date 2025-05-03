@@ -7,9 +7,9 @@
           <button style="flex: 1;">add task +</button>
         </div>
         <div style="display: flex; flex-direction: column; gap: 15px; flex: 4;">
-          <p>In progress</p>
-          <p>Not started</p>
-          <p>Finished</p>
+          <TasksSection :status="0"/>
+          <TasksSection :status="1"/>
+          <TasksSection :status="2"/>
         </div>
       </div>
       <CategoriesSection :type="1"/>
@@ -21,12 +21,14 @@
   import TimeRecorder from '../components/TimeRecorder.vue'
   import UserTimeStatistics from '../components/UserTimeStatistics.vue';
   import CategoriesSection from '../components/CategoriesSection.vue';
+  import TasksSection from '../components/TasksSection.vue';
   export default {
     name: 'Productivity',
     components: {
       TimeRecorder,
       UserTimeStatistics,
-      CategoriesSection
+      CategoriesSection,
+      TasksSection
     },
   }
   </script>

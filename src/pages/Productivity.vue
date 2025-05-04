@@ -1,5 +1,5 @@
 <template>
-  <div style="margin: 130px 0px;">
+  <div style="margin: 180px 0px;">
     <div style="display: flex; flex-direction: row; gap: 15px; min-height: 50vh">
       <div style="display: flex; flex-direction: column; gap: 15px; flex: 2;">
         <TimeRecorder style="flex: 3;" />
@@ -7,7 +7,7 @@
         <button style="flex: 1;" @click="openTaskCreationModal">add task +</button>
       </div>
       <div style="display: flex; flex-direction: column; gap: 15px; flex: 4;">
-        <TasksSection :status="0" />
+        <TasksSection :status="0" :key="reloadKey" />
         <TasksSection :status="1" />
         <TasksSection :status="2" />
       </div>
@@ -23,7 +23,7 @@
           <input v-model="taskForm.name" placeholder="Name" />
         </div>
         <div>
-          <label for="description">Description <span v-if="taskForm.description.length == 0">*</span></label>
+          <label for="description">Description</label>
           <textarea v-model="taskForm.description" placeholder="Description"></textarea>
         </div>
         <div>
@@ -93,14 +93,15 @@ export default {
       },
       availableTasks: [],
       availableCategories: [],
+      reloadKey: 0
     }
   },
   mounted() {
     this.fetchAvailableTasks();
-    this.fetchAvailableCategories();
   },
   methods: {
     openTaskCreationModal() {
+      this.fetchAvailableCategories();
       this.showTaskCreationModal = true;
     },
     closeTaskCreationModal() {
@@ -136,6 +137,7 @@ export default {
         if (response.status === 201) {
           this.closeTaskCreationModal();
           this.fetchAvailableTasks();
+          this.reloadKey++;
         }
       } catch (error) {
         console.error('Error creating task:', error);

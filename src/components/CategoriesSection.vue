@@ -2,7 +2,8 @@
     <div>
         <h2>{{ type == 1 ? 'Productivity' : 'Economy' }} Categories</h2>
         <div class="section-container">
-            <div style="display: flex; flex-direction: row; gap: 25px; background-color: #2C2C2C; border-radius: 8px; color: white; padding: 0px 15px;">
+            <div
+                style="display: flex; flex-direction: row; gap: 25px; background-color: #2C2C2C; border-radius: 8px; color: white; padding: 0px 15px;">
                 <div v-if="type == 2" style="display: flex; flex-direction: row; gap: 15px; align-items: center;">
                     <h3>Type</h3>
                     <button>Outcomes</button>
@@ -16,24 +17,31 @@
                     <button>Month</button>
                 </div>
             </div>
-            <div style="background-color: #F1F1F1; border-radius: 8px; padding: 20px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);">
+            <div
+                style="background-color: #F1F1F1; border-radius: 8px; padding: 20px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);">
                 <div class="category-grid">
-                    <div v-for="category in categories" :key="category.id" style="display: flex; justify-content: space-between; align-items: center; background-color: white;  padding: 5px 15px; border-radius: 8px;">
+                    <div v-for="category in categories" :key="category.id"
+                        style="display: flex; justify-content: space-between; align-items: center; background-color: white;  padding: 5px 15px; border-radius: 8px;">
                         <h3>{{ category.name }}</h3>
-                        <button @click="deleteCategory(category.id)" style="background-color: red; color: white; padding: 5px 10px;">Delete</button>
+                        <button @click="deleteCategory(category.id)"
+                            style="background-color: red; color: white; padding: 5px 10px;">Delete</button>
                     </div>
                 </div>
                 <div>
                     <h3>Add category</h3>
                     <div style="display: flex; flex-direction: row; justify-content: space-between;">
                         <div>
-                            <input type="text" name="categoryName" id="categoryName" placeholder="Name" v-model="newCategoryName"/>
+                            <input type="text" name="categoryName" id="categoryName" placeholder="Name"
+                                v-model="newCategoryName" />
                             <select name="parentCategory" id="parentCategory" v-model="newCategoryParent">
-                                <option value=""></option>
+                                <option value="">Select parent category</option>
+                                <option v-for="category in categories" :key="category.id" :value="category.id">{{
+                                    category.name }}</option>
                             </select>
                         </div>
                         <!-- color picker todo -->
-                        <button @click="addCategory" style="background-color: #5438DC; color: white; padding: 5px 10px;">Add +</button>
+                        <button @click="addCategory"
+                            style="background-color: #5438DC; color: white; padding: 5px 10px;">Add +</button>
                     </div>
                 </div>
             </div>
@@ -60,7 +68,7 @@ export default {
             selectedPeriod: null,
             showModal: false,
             newCategoryName: '',
-            newCategoryParent: null,
+            newCategoryParent: '',
             loading: false,
         };
     },
@@ -73,16 +81,16 @@ export default {
         loadCategories() {
             if (this.type == 1) {
                 return getProductivityCategories().then((data) => {
-                this.categories = data.data.categories;
+                    this.categories = data.data.categories;
                 });
             } else if (this.type == 2) {
                 return getEconomyCategories().then((data) => {
-                this.categories = data.data.categories;
+                    this.categories = data.data.categories;
                 });
             }
         },
         addCategory() {
-            try{
+            try {
                 this.loading = true;
                 addCategory({
                     type: this.type,
@@ -95,12 +103,12 @@ export default {
                     this.newCategoryName = '';
                     this.newCategoryParent = null;
                 });
-            }catch (error) {
+            } catch (error) {
                 console.error('Error adding category:', error);
             }
         },
         deleteCategory(categoryId) {
-            try{
+            try {
                 this.loading = true;
                 deleteCategory({
                     category_id: categoryId
@@ -109,7 +117,7 @@ export default {
                     await this.loadCategories();
                     this.loading = false;
                 });
-            }catch (error) {
+            } catch (error) {
                 console.error('Error deleting category:', error);
             }
         },
@@ -117,43 +125,45 @@ export default {
 }
 </script>
 <style scoped>
-    .section-container {
-      position: relative;
-    }
-    .category-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr); /* Dos columnas iguales */
-        gap: 10px;
-        margin-bottom: 20px;
-    }
-    .overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        backdrop-filter: blur(4px);
-        background-color: rgba(255, 255, 255, 0.4);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 10;
-        border-radius: 8px;
-    }
+.section-container {
+    position: relative;
+}
 
-    .spinner {
-        width: 40px;
-        height: 40px;
-        border: 4px solid #ccc;
-        border-top-color: #2C2C2C;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-    }
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* Dos columnas iguales */
+    gap: 10px;
+    margin-bottom: 20px;
+}
 
-    @keyframes spin {
-        to {
-            transform: rotate(360deg);
-        }
-    }
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(4px);
+    background-color: rgba(255, 255, 255, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    border-radius: 8px;
+}
 
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ccc;
+    border-top-color: #2C2C2C;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
 </style>

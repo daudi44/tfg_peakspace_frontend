@@ -1,7 +1,7 @@
 <template>
   <div :class="{ 'auth-background': !showHeader }">
     <Header v-if="showHeader" />
-    <router-view style="padding: 0 30%;" />
+    <router-view style="padding: 0 20%;" />
     <Footer v-if="false" />
   </div>
 </template>

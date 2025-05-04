@@ -38,23 +38,24 @@
         <div>
           <label for="parent_task">Parent task</label>
           <select v-model="taskForm.parent_task_id">
-            <option disabled value="">Select parent task</option>
+            <option value="">Select parent task</option>
             <option v-for="task in availableTasks" :key="task.id" :value="task.id">
               {{ task.name }}
             </option>
           </select>
         </div>
         <div>
-          <label for="start_date">Start Date</label>
+          <label for="start_date">Start Date <span v-if="taskForm.start_date.length == 0">*</span></label>
           <input type="date" v-model="taskForm.start_date" />
         </div>
         <div>
-          <label for="due_date">Due date</label>
+          <label for="due_date">Due date <span v-if="taskForm.due_date.length == 0">*</span></label>
           <input type="date" v-model="taskForm.due_date" />
         </div>
 
         <div style="margin-top: 20px; display: flex; flex-direction: row; gap: 5px;">
-          <button @click="submitTask" style="background-color: #009951; color: white; font-weight: bold;">Save</button>
+          <button @click="submitTask" :disabled="!isTaskFormValid"
+            style="background-color: #009951; color: white; font-weight: bold;">Save</button>
           <button @click="closeTaskCreationModal"
             style="background-color: #FF4F4D; color: white; font-weight: bold;">Cancel</button>
         </div>
@@ -139,6 +140,11 @@ export default {
       } catch (error) {
         console.error('Error creating task:', error);
       }
+    }
+  },
+  computed: {
+    isTaskFormValid() {
+      return this.taskForm.name && this.taskForm.description && this.taskForm.category_id && this.taskForm.start_date && this.taskForm.due_date;
     }
   }
 }

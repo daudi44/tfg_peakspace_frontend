@@ -15,8 +15,14 @@
                     <p>{{ task.description }}</p>
                 </div>
                 <div>
-                    <p>Start Date: {{ formatDate(task.start_date) }}</p>
-                    <p>Due Date: {{ formatDate(task.due_date) }}</p>
+                    <div>
+                        <p>Start Date: {{ formatDate(task.start_date) }}</p>
+                        <p>Due Date: {{ formatDate(task.due_date) }}</p>
+                    </div>
+                    <div>
+                        <button>Edit</button>
+                        <button>Delete</button>
+                    </div>
                 </div>
             </div>
         </div>

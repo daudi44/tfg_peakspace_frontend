@@ -31,14 +31,12 @@ export default {
     },
     methods: {
         async loadTasks() {
-            return tasksByStatus({status: this.status}).then((data) => {
-                console.log('Tasks loaded successfully', data);
-                this.tasks = data.tasks;
+            return tasksByStatus({ status: this.status }).then((data) => {
+                console.log(data.data);
+                this.tasks = data.data;
             });
         },
     },
 }
 </script>
-<style scoped>
-    
-</style>
+<style scoped></style>

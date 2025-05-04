@@ -1,8 +1,8 @@
 <template>
-  <div :class="{ 'auth-background': !showHeader }">  
+  <div :class="{ 'auth-background': !showHeader }">
     <Header v-if="showHeader" />
     <router-view style="padding: 0 30%;" />
-    <Footer />
+    <Footer v-if="false" />
   </div>
 </template>
 
@@ -51,5 +51,4 @@ button:disabled {
   background-color: #545454;
   min-height: 100vh;
 }
-
 </style>

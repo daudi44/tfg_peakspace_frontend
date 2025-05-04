@@ -1,7 +1,6 @@
 <template>
     <div>
         <p>{{ tasks }}</p>
-        <p>{{ status }}</p>
     </div>
 </template>
 <script>

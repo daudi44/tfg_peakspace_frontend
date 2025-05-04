@@ -19,15 +19,15 @@
       <div class="modal-content">
         <h2>Create New Task</h2>
         <div>
-          <label for="name">Name</label>
+          <label for="name">Name <span v-if="taskForm.name.length == 0">*</span></label>
           <input v-model="taskForm.name" placeholder="Name" />
         </div>
         <div>
-          <label for="description">Description</label>
+          <label for="description">Description <span v-if="taskForm.description.length == 0">*</span></label>
           <textarea v-model="taskForm.description" placeholder="Description"></textarea>
         </div>
         <div>
-          <label for="category">Category</label>
+          <label for="category">Category <span v-if="taskForm.category_id.length == 0">*</span></label>
           <select v-model="taskForm.category_id">
             <option disabled value="">Select category</option>
             <option v-for="category in availableCategories" :key="category.id" :value="category.id">
@@ -53,9 +53,10 @@
           <input type="date" v-model="taskForm.due_date" />
         </div>
 
-        <div style="margin-top: 20px;">
-          <button @click="submitTask">Create</button>
-          <button @click="closeTaskCreationModal">Cancel</button>
+        <div style="margin-top: 20px; display: flex; flex-direction: row; gap: 5px;">
+          <button @click="submitTask" style="background-color: #009951; color: white; font-weight: bold;">Save</button>
+          <button @click="closeTaskCreationModal"
+            style="background-color: #FF4F4D; color: white; font-weight: bold;">Cancel</button>
         </div>
       </div>
     </div>

@@ -12,3 +12,6 @@ export function allTasks() {
 export function tasksByStatus(data) {
     return axios.post('/tasks', data)
 }
+export function updateTaskStatus(data) {
+    return axios.post('/update-task-status', data)
+}

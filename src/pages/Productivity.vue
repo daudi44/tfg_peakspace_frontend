@@ -146,7 +146,7 @@ export default {
   },
   computed: {
     isTaskFormValid() {
-      return this.taskForm.name && this.taskForm.description && this.taskForm.category_id && this.taskForm.start_date && this.taskForm.due_date;
+      return this.taskForm.name && this.taskForm.category_id && this.taskForm.start_date && this.taskForm.due_date;
     }
   }
 }

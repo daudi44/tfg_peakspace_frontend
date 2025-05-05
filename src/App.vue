@@ -23,7 +23,7 @@ const showHeader = computed(() => {
 body {
   margin: 0;
   padding: 0;
-  font-family: "Josefin Sans", sans-serif;
+  font-family: "Encode Sans", sans-serif;
 }
 
 button {

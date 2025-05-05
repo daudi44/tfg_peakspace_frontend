@@ -7,9 +7,9 @@
         <button style="flex: 1;" @click="openTaskCreationModal">add task +</button>
       </div>
       <div style="display: flex; flex-direction: column; gap: 15px; flex: 4;">
-        <TasksSection :status="0" :key="reloadKey" />
-        <TasksSection :status="1" />
-        <TasksSection :status="2" />
+        <TasksSection :status="0" :key="`todo-${reloadKey}`" @task-updated="reloadKey++" />
+        <TasksSection :status="1" :key="`inprogress-${reloadKey}`" @task-updated="reloadKey++" />
+        <TasksSection :status="2" :key="`done-${reloadKey}`" @task-updated="reloadKey++" />
       </div>
     </div>
     <CategoriesSection :type="1" />

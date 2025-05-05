@@ -33,7 +33,7 @@
                 </div>
             </div>
 
-            <div v-if="loading" class="overlay">
+            <div v-if="loading" class="overlay" style="z-index: 11;">
                 <div class="spinner"></div>
             </div>
 
@@ -119,6 +119,7 @@ export default {
                 this.showUpdateStatusModal = false;
                 this.selectedTask = null;
                 this.newStatusValue = null;
+                this.$emit('task-updated');
                 this.loading = false;
             });
         }

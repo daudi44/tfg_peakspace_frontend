@@ -7,9 +7,12 @@
         <button style="flex: 1;" @click="openTaskCreationModal">add task +</button>
       </div>
       <div style="display: flex; flex-direction: column; gap: 15px; flex: 4;">
-        <TasksSection :status="0" :key="`todo-${reloadKey}`" @task-updated="reloadKey++" />
-        <TasksSection :status="1" :key="`inprogress-${reloadKey}`" @task-updated="reloadKey++" />
-        <TasksSection :status="2" :key="`done-${reloadKey}`" @task-updated="reloadKey++" />
+        <TasksSection :status="0" :deployed="activeDeployStatus === 0" :key="reloadKey" @task-updated="reloadKey++"
+          @toggle-deploy="toggleDeploy(0)" />
+        <TasksSection :status="1" :deployed="activeDeployStatus === 1" :key="reloadKey + 1" @task-updated="reloadKey++"
+          @toggle-deploy="toggleDeploy(1)" />
+        <TasksSection :status="2" :deployed="activeDeployStatus === 2" :key="reloadKey + 2" @task-updated="reloadKey++"
+          @toggle-deploy="toggleDeploy(2)" />
       </div>
     </div>
     <CategoriesSection :type="1" />
@@ -62,6 +65,10 @@
       </div>
     </div>
 
+    <div v-if="loading" class="overlay" style="z-index: 11;">
+      <div class="spinner"></div>
+    </div>
+
   </div>
 </template>
 
@@ -93,15 +100,19 @@ export default {
       },
       availableTasks: [],
       availableCategories: [],
-      reloadKey: 0
+      reloadKey: 0,
+      loading: false,
+      activeDeployStatus: 0,
     }
   },
   mounted() {
     this.fetchAvailableTasks();
   },
   methods: {
-    openTaskCreationModal() {
-      this.fetchAvailableCategories();
+    async openTaskCreationModal() {
+      this.loading = true;
+      await this.fetchAvailableCategories();
+      this.loading = false;
       this.showTaskCreationModal = true;
     },
     closeTaskCreationModal() {
@@ -142,6 +153,9 @@ export default {
       } catch (error) {
         console.error('Error creating task:', error);
       }
+    },
+    toggleDeploy(status) {
+      this.activeDeployStatus = this.activeDeployStatus === status ? null : status;
     }
   },
   computed: {
@@ -196,5 +210,35 @@ textarea {
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(4px);
+  background-color: rgba(255, 255, 255, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  border-radius: 8px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ccc;
+  border-top-color: #2C2C2C;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>

@@ -5,15 +5,16 @@
                 style="display: flex; flex-direction: row; align-items: center; color: white; padding: 0px 20px; justify-content: space-between;">
                 <h2>{{ statusName }} <span style="cursor: pointer;" @click="$emit('toggle-deploy')">{{ !deployed ? "▶️"
                     :
-                    "⤴️" }}</span></h2>
+                        "⤴️" }}</span></h2>
                 <p>Total tasks: {{ tasks.length }}</p>
             </div>
 
             <div class="task-list-delimiter" v-if="deployed">
-                <div v-for="(task, index) in tasks" :key="task.id" class="task-list-content" :class="{
-                    'even': index % 2 === 0, 'odd': index % 2 !== 0,
-                    last: index === tasks.length - 1
-                }">
+                <div v-if="tasks.length > 0" v-for="(task, index) in tasks" :key="task.id" class="task-list-content"
+                    :class="{
+                        'even': index % 2 === 0, 'odd': index % 2 !== 0,
+                        last: index === tasks.length - 1
+                    }">
                     <div>
                         <h3>{{ task.name }} - {{ task.category.name }}</h3>
                         <p>{{ task.description }}</p>
@@ -34,6 +35,12 @@
                                 @click="deleteTask(task.id)">Delete</button>
                         </div>
                     </div>
+                </div>
+                <div v-else>
+                    <p class="last odd  task-list-content" style="height: 50px; margin: 0; align-items: center;">There
+                        are no tasks with this
+                        status.
+                    </p>
                 </div>
             </div>
 

@@ -5,7 +5,7 @@
                 style="display: flex; flex-direction: row; align-items: center; color: white; padding: 0px 20px; justify-content: space-between;">
                 <h2>{{ statusName }} <span style="cursor: pointer;" @click="$emit('toggle-deploy')">{{ !deployed ? "▶️"
                     :
-                        "⤴️" }}</span></h2>
+                    "⤴️" }}</span></h2>
                 <p>Total tasks: {{ tasks.length }}</p>
             </div>
 
@@ -17,6 +17,8 @@
                     <div>
                         <h3>{{ task.name }} - {{ task.category.name }}</h3>
                         <p>{{ task.description }}</p>
+                        <!-- total time -->
+                        <p>Total time: {{ calcTotalTime(task.total_time) }} seconds</p>
                     </div>
                     <div>
                         <div>
@@ -128,6 +130,12 @@ export default {
                 this.$emit('task-updated');
                 this.loading = false;
             });
+        },
+        calcTotalTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secondsLeft = seconds % 60;
+            return `${hours}h ${minutes}m ${secondsLeft}s`;
         }
     },
     computed: {

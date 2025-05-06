@@ -8,7 +8,7 @@
 
         <div class="button-group">
             <button class="start-button" @click="startTimer" :disabled="isRecording">
-                ▶️
+                <img src="../assets/play.svg" alt="Start" width="50" height="50" />
             </button>
             <button class="stop-button" @click="stopTimer" :disabled="!isRecording">
                 ⏹
@@ -195,9 +195,11 @@ export default {
 .start-button,
 .stop-button {
     font-size: 32px;
-    padding: 20px;
     border: none;
     border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 80px;
     height: 80px;
     cursor: pointer;
@@ -208,9 +210,20 @@ export default {
     color: white;
 }
 
+.start-button:disabled {
+    background-color: #E0E0E0;
+    cursor: not-allowed;
+}
+
 .stop-button {
     background-color: #FF4F4D;
     color: white;
+}
+
+.stop-button:disabled {
+    background-color: #E0E0E0;
+    color: #2C2C2C;
+    cursor: not-allowed;
 }
 
 .selector-group {

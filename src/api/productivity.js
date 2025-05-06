@@ -25,3 +25,6 @@ export function stopTimeEntry(data) {
 export function timeEntries() {
     return axios.get('/time-entries')
 }
+export function lastTimeEntry() {
+    return axios.get('/last-time-entry')
+}

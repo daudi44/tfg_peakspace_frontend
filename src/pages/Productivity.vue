@@ -166,7 +166,6 @@ export default {
     },
     async fetchTimeEntriesLog() {
       const response = await timeEntries();
-      console.log(response)
       this.timeEntriesLog = response.data;
     },
     toggleDeploy(status) {

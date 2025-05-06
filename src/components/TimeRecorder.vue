@@ -30,12 +30,16 @@
                 </optgroup>
             </select>
         </div>
+
+        <div v-if="loading" class="overlay">
+            <div class="spinner"></div>
+        </div>
     </div>
 </template>
 
 <script>
 import { getProductivityCategories } from '../api/general';
-import { tasksByStatus, startTimeEntry, stopTimeEntry } from '../api/productivity';
+import { tasksByStatus, startTimeEntry, stopTimeEntry, lastTimeEntry } from '../api/productivity';
 
 export default {
     name: 'TimeRecorder',
@@ -47,7 +51,9 @@ export default {
             selectedItem: '',
             inProgressTasks: [],
             categories: [],
-            startedAt: null
+            lastTimeEntry: null,
+            startedAt: null,
+            loading: false,
         };
     },
     computed: {
@@ -59,7 +65,10 @@ export default {
         }
     },
     async mounted() {
+        this.loading = true;
         await this.loadTasksAndCategories();
+        await this.getLastTimeEntry();
+        this.loading = false;
     },
     methods: {
         async loadTasksAndCategories() {
@@ -105,6 +114,7 @@ export default {
 
             const now = new Date().toISOString();
             this.isRecording = false;
+            this.secondsElapsed = 0;
             clearInterval(this.timer);
             this.timer = null;
 
@@ -114,7 +124,40 @@ export default {
             } catch (error) {
                 alert('Could not stop time entry');
             }
+        },
+
+        async getLastTimeEntry() {
+            try {
+                const response = await lastTimeEntry();
+                console.log(response.data)
+                this.lastTimeEntry = response.data;
+
+                if (this.lastTimeEntry && !this.lastTimeEntry.end_time) {
+                    this.isRecording = true;
+
+                    this.secondsElapsed = Math.floor(this.lastTimeEntry.seconds_elapsed);
+
+                    this.timer = setInterval(() => {
+                        this.secondsElapsed++;
+                    }, 1000);
+
+                } else {
+                    this.isRecording = false;
+                }
+
+                const registrableType = this.lastTimeEntry.registrable_type;
+                const registrableId = this.lastTimeEntry.registrable_id;
+
+                if (registrableType.includes('Task')) {
+                    this.selectedItem = `task-${registrableId}`;
+                } else if (registrableType.includes('Category')) {
+                    this.selectedItem = `cat-${registrableId}`;
+                }
+            } catch (error) {
+                console.error('Error fetching last time entry:', error);
+            }
         }
+
     }
 };
 </script>
@@ -126,6 +169,7 @@ export default {
     border-radius: 8px;
     padding: 20px;
     text-align: center;
+    position: relative;
 }
 
 .title {
@@ -180,5 +224,35 @@ export default {
     border-radius: 4px;
     border: none;
     width: 100%;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(4px);
+    background-color: rgba(255, 255, 255, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    border-radius: 8px;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ccc;
+    border-top-color: #2C2C2C;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
 </style>

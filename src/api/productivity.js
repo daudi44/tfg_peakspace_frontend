@@ -15,3 +15,13 @@ export function tasksByStatus(data) {
 export function updateTaskStatus(data) {
     return axios.post('/update-task-status', data)
 }
+
+export function startTimeEntry(data) {
+    return axios.post('/start-time-entry', data)
+}
+export function stopTimeEntry(data) {
+    return axios.post('/stop-time-entry', data)
+}
+export function timeEntries() {
+    return axios.get('/time-entries')
+}

@@ -16,7 +16,11 @@
       </div>
     </div>
     <CategoriesSection :type="1" />
-    <p>time entries log</p>
+    <div>
+      <div v-for="timeEntry in timeEntriesLog">
+        <p>{{ timeEntry }}</p>
+      </div>
+    </div>
 
     <div v-if="showTaskCreationModal" class="modal-overlay">
       <div class="modal-content">
@@ -77,7 +81,7 @@ import TimeRecorder from '../components/TimeRecorder.vue'
 import UserTimeStatistics from '../components/UserTimeStatistics.vue';
 import CategoriesSection from '../components/CategoriesSection.vue';
 import TasksSection from '../components/TasksSection.vue';
-import { allTasks, addTask } from '../api/productivity';
+import { allTasks, addTask, timeEntries } from '../api/productivity';
 import { getProductivityCategories } from '../api/general';
 export default {
   name: 'Productivity',
@@ -98,6 +102,7 @@ export default {
         start_date: '',
         due_date: ''
       },
+      timeEntriesLog: [],
       availableTasks: [],
       availableCategories: [],
       reloadKey: 0,
@@ -107,6 +112,7 @@ export default {
   },
   mounted() {
     this.fetchAvailableTasks();
+    this.fetchTimeEntriesLog();
   },
   methods: {
     async openTaskCreationModal() {
@@ -153,6 +159,11 @@ export default {
       } catch (error) {
         console.error('Error creating task:', error);
       }
+    },
+    async fetchTimeEntriesLog() {
+      const response = await timeEntries();
+      console.log(response)
+      this.timeEntriesLog = response.data;
     },
     toggleDeploy(status) {
       this.activeDeployStatus = this.activeDeployStatus === status ? null : status;

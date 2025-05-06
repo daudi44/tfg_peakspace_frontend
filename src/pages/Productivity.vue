@@ -2,7 +2,7 @@
   <div style="margin: 180px 0px;">
     <div style="display: flex; flex-direction: row; gap: 15px; min-height: 50vh">
       <div style="display: flex; flex-direction: column; gap: 15px; flex: 2;">
-        <TimeRecorder style="flex: 3;" />
+        <TimeRecorder style="flex: 3;" :key="reloadKey" />
         <UserTimeStatistics style="flex: 2" />
         <button style="flex: 1;" @click="openTaskCreationModal">add task +</button>
       </div>
@@ -15,7 +15,9 @@
           @toggle-deploy="toggleDeploy(2)" />
       </div>
     </div>
+    <Separator />
     <CategoriesSection :type="1" />
+    <Separator />
     <div>
       <div v-for="timeEntry in timeEntriesLog">
         <p>{{ timeEntry }}</p>
@@ -80,6 +82,7 @@
 import TimeRecorder from '../components/TimeRecorder.vue'
 import UserTimeStatistics from '../components/UserTimeStatistics.vue';
 import CategoriesSection from '../components/CategoriesSection.vue';
+import Separator from '../components/Separator.vue';
 import TasksSection from '../components/TasksSection.vue';
 import { allTasks, addTask, timeEntries } from '../api/productivity';
 import { getProductivityCategories } from '../api/general';
@@ -89,7 +92,8 @@ export default {
     TimeRecorder,
     UserTimeStatistics,
     CategoriesSection,
-    TasksSection
+    TasksSection,
+    Separator
   },
   data() {
     return {

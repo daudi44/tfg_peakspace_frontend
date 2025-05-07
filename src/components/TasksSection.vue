@@ -5,7 +5,7 @@
                 style="display: flex; flex-direction: row; align-items: center; color: white; padding: 0px 20px; justify-content: space-between;">
                 <h2>{{ statusName }} <span style="cursor: pointer;" @click="$emit('toggle-deploy')">{{ !deployed ? "▶️"
                     :
-                        "⤴️" }}</span></h2>
+                    "⤴️" }}</span></h2>
                 <p>Total tasks: {{ tasks.length }}</p>
             </div>
 
@@ -152,7 +152,7 @@ export default {
             } else if (this.status === 1) {
                 return 'In Progress';
             } else if (this.status === 2) {
-                return 'Fiinshed';
+                return 'Finshed';
             }
         }
     }

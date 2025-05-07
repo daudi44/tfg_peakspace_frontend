@@ -19,9 +19,38 @@
     <CategoriesSection :type="1" />
     <Separator />
     <div>
-      <div v-for="timeEntry in timeEntriesLog">
-        <p>{{ timeEntry }}</p>
+      <h2>Time entries log</h2>
+      <div class="time-entries-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Identifier</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Time Elapsed</th>
+              <th>Registered Element</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(timeEntry, index) in timeEntriesLog" :key="timeEntry.id"
+              :class="{ even: index % 2 === 0, odd: index % 2 !== 0 }">
+              <td>{{ timeEntry.id }}</td>
+              <td>{{ formatDate(timeEntry.start_time) }}</td>
+              <td>{{ formatDate(timeEntry.end_time) }}</td>
+              <td>{{ formatElapsed(timeEntry.seconds_elapsed) }}</td>
+              <td>
+                <span v-if="timeEntry.registrable_type === 'App\\Models\\Task'">
+                  {{availableTasks.find(task => task.id === timeEntry.registrable_id)?.name || 'Task'}}
+                </span>
+                <span v-else>
+                  {{availableCategories.find(cat => cat.id === timeEntry.registrable_id)?.name || 'Category'}}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+
     </div>
 
     <div v-if="showTaskCreationModal" class="modal-overlay">
@@ -86,6 +115,7 @@ import Separator from '../components/Separator.vue';
 import TasksSection from '../components/TasksSection.vue';
 import { allTasks, addTask, timeEntries } from '../api/productivity';
 import { getProductivityCategories } from '../api/general';
+import { format } from 'date-fns';
 export default {
   name: 'Productivity',
   components: {
@@ -116,6 +146,7 @@ export default {
   },
   mounted() {
     this.fetchAvailableTasks();
+    this.fetchAvailableCategories();
     this.fetchTimeEntriesLog();
   },
   methods: {
@@ -135,6 +166,9 @@ export default {
         start_date: '',
         due_date: ''
       };
+    },
+    formatDate(date) {
+      return format(new Date(date), 'dd/MM/yyyy HH:mm');
     },
     async fetchAvailableTasks() {
       try {
@@ -170,7 +204,14 @@ export default {
     },
     toggleDeploy(status) {
       this.activeDeployStatus = this.activeDeployStatus === status ? null : status;
+    },
+    formatElapsed(eSeconds) {
+      const hours = String(Math.floor(eSeconds / 3600)).padStart(2, '0');
+      const minutes = String(Math.floor((eSeconds % 3600) / 60)).padStart(2, '0');
+      const seconds = String(eSeconds % 60).padStart(2, '0');
+      return `${hours}:${minutes}:${seconds}`;
     }
+
   },
   computed: {
     isTaskFormValid() {
@@ -181,6 +222,36 @@ export default {
 </script>
 
 <style scoped>
+.time-entries-table {
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.time-entries-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.time-entries-table thead {
+  background-color: #57B8FF;
+  color: white;
+}
+
+.time-entries-table th,
+.time-entries-table td {
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.time-entries-table tbody tr.even {
+  background-color: #CECECE;
+}
+
+.time-entries-table tbody tr.odd {
+  background-color: #ECECEC;
+}
+
 .modal-overlay {
   position: fixed;
   top: 0;

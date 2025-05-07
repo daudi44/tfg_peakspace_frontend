@@ -135,6 +135,8 @@ export default {
     /* Dos columnas iguales */
     gap: 10px;
     margin-bottom: 20px;
+    max-height: 40vh;
+    overflow-y: auto;
 }
 
 .overlay {

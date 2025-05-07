@@ -61,6 +61,7 @@ export default {
             const hours = String(Math.floor(this.secondsElapsed / 3600)).padStart(2, '0');
             const minutes = String(Math.floor((this.secondsElapsed % 3600) / 60)).padStart(2, '0');
             const seconds = String(this.secondsElapsed % 60).padStart(2, '0');
+            console.log('formatted time', hours, minutes, seconds, this.secondsElapsed);
             return `${hours}:${minutes}:${seconds}`;
         }
     },
@@ -80,6 +81,7 @@ export default {
         },
 
         async startTimer() {
+            console.log('Starting timer');
             if (!this.selectedItem) {
                 alert('Please select a task or category to begin tracking.');
                 return;
@@ -129,30 +131,42 @@ export default {
         async getLastTimeEntry() {
             try {
                 const response = await lastTimeEntry();
-                console.log(response.data)
                 this.lastTimeEntry = response.data;
-
-                if (this.lastTimeEntry && !this.lastTimeEntry.end_time) {
-                    this.isRecording = true;
-
-                    this.secondsElapsed = Math.floor(this.lastTimeEntry.seconds_elapsed);
-
-                    this.timer = setInterval(() => {
-                        this.secondsElapsed++;
-                    }, 1000);
-
-                } else {
+                if (response.data == null) {
+                    this.lastTimeEntry = null;
                     this.isRecording = false;
+                    this.secondsElapsed = 0;
+                    return;
                 }
 
-                const registrableType = this.lastTimeEntry.registrable_type;
-                const registrableId = this.lastTimeEntry.registrable_id;
+                if (!this.lastTimeEntry || Object.keys(this.lastTimeEntry).length === 0) {
+                    this.isRecording = false;
+                    this.secondsElapsed = 0;
+                    this.selectedItem = '';
+                }else{
+                    if (!this.lastTimeEntry.end_time) {
+                        this.isRecording = true;
 
-                if (registrableType.includes('Task')) {
-                    this.selectedItem = `task-${registrableId}`;
-                } else if (registrableType.includes('Category')) {
-                    this.selectedItem = `cat-${registrableId}`;
+                        this.secondsElapsed = Math.floor(this.lastTimeEntry.seconds_elapsed);
+
+                        this.timer = setInterval(() => {
+                            this.secondsElapsed++;
+                        }, 1000);
+                    }else{
+                        console.log('Time entry found', this.lastTimeEntry);
+                        this.isRecording = false;
+                    }
+                        
+                    const registrableType = this.lastTimeEntry.registrable_type;
+                    const registrableId = this.lastTimeEntry.registrable_id;
+
+                    if (registrableType == 'App\\Models\\Task') {
+                        this.selectedItem = `task-${registrableId}`;
+                    } else {
+                        this.selectedItem = `cat-${registrableId}`;
+                    }
                 }
+
             } catch (error) {
                 console.error('Error fetching last time entry:', error);
             }

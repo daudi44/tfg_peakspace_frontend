@@ -102,6 +102,7 @@ export default {
                     this.loading = false;
                     this.newCategoryName = '';
                     this.newCategoryParent = null;
+                    this.$emit('categoryUpdated')
                 });
             } catch (error) {
                 console.error('Error adding category:', error);
@@ -116,6 +117,7 @@ export default {
                     console.log('Category deleted successfully');
                     await this.loadCategories();
                     this.loading = false;
+                    this.$emit('categoryUpdated')
                 });
             } catch (error) {
                 console.error('Error deleting category:', error);

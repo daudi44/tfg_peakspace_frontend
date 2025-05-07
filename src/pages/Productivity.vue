@@ -9,14 +9,14 @@
       <div style="display: flex; flex-direction: column; gap: 15px; flex: 4;">
         <TasksSection :status="0" :deployed="activeDeployStatus === 0" :key="reloadKey" @task-updated="reloadKey++"
           @toggle-deploy="toggleDeploy(0)" />
-        <TasksSection :status="1" :deployed="activeDeployStatus === 1" :key="reloadKey + 1" @task-updated="reloadKey++"
+        <TasksSection :status="1" :deployed="activeDeployStatus === 1" :key="reloadKey" @task-updated="reloadKey++"
           @toggle-deploy="toggleDeploy(1)" />
-        <TasksSection :status="2" :deployed="activeDeployStatus === 2" :key="reloadKey + 2" @task-updated="reloadKey++"
+        <TasksSection :status="2" :deployed="activeDeployStatus === 2" :key="reloadKey" @task-updated="reloadKey++"
           @toggle-deploy="toggleDeploy(2)" />
       </div>
     </div>
     <Separator />
-    <CategoriesSection :type="1" />
+    <CategoriesSection :type="1" @category-updated="reloadKey++" />
     <Separator />
     <div>
       <h2>Time entries log</h2>
@@ -36,7 +36,7 @@
               :class="{ even: index % 2 === 0, odd: index % 2 !== 0 }">
               <td>{{ timeEntry.id }}</td>
               <td>{{ formatDate(timeEntry.start_time) }}</td>
-              <td>{{ formatDate(timeEntry.end_time) }}</td>
+              <td>{{ timeEntry.end_time ? formatDate(timeEntry.end_time) : 'Not finished' }}</td>
               <td>{{ formatElapsed(timeEntry.seconds_elapsed) }}</td>
               <td>
                 <span v-if="timeEntry.registrable_type === 'App\\Models\\Task'">
@@ -208,7 +208,7 @@ export default {
     formatElapsed(eSeconds) {
       const hours = String(Math.floor(eSeconds / 3600)).padStart(2, '0');
       const minutes = String(Math.floor((eSeconds % 3600) / 60)).padStart(2, '0');
-      const seconds = String(eSeconds % 60).padStart(2, '0');
+      const seconds = String(Math.floor(eSeconds % 60)).padStart(2, '0');
       return `${hours}:${minutes}:${seconds}`;
     }
 

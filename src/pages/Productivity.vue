@@ -20,7 +20,7 @@
     <Separator />
     <div>
       <h2>Time entries log</h2>
-      <div class="time-entries-table">
+      <div v-if="timeEntriesLog.length > 0" class="time-entries-table">
         <table>
           <thead>
             <tr>
@@ -50,6 +50,7 @@
           </tbody>
         </table>
       </div>
+      <p v-else>No time entries reigstered yet!</p>
 
     </div>
 

@@ -24,7 +24,7 @@
                         style="display: flex; justify-content: space-between; align-items: center; background-color: white;  padding: 5px 15px; border-radius: 8px;">
                         <h3>{{ category.name }}</h3>
                         <button @click="deleteCategory(category.id)"
-                            style="background-color: red; color: white; padding: 5px 10px;">Delete</button>
+                            style="background-color: #FF4F4D; color: white; padding: 5px 10px;">Delete</button>
                     </div>
                 </div>
                 <div>

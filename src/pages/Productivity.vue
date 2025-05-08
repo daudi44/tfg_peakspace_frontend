@@ -29,6 +29,7 @@
               <th>End Time</th>
               <th>Time Elapsed</th>
               <th>Registered Element</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -45,6 +46,9 @@
                 <span v-else>
                   {{availableCategories.find(cat => cat.id === timeEntry.registrable_id)?.name || 'Category'}}
                 </span>
+              </td>
+              <td>
+                <button style="background-color: #FF4F4D; color: white;" @click="deleteTimeEntry(timeEntry.id)">Delete</button>
               </td>
             </tr>
           </tbody>
@@ -114,7 +118,7 @@ import UserTimeStatistics from '../components/UserTimeStatistics.vue';
 import CategoriesSection from '../components/CategoriesSection.vue';
 import Separator from '../components/Separator.vue';
 import TasksSection from '../components/TasksSection.vue';
-import { allTasks, addTask, timeEntries } from '../api/productivity';
+import { allTasks, addTask, timeEntries, deleteTimeEntry } from '../api/productivity';
 import { getProductivityCategories } from '../api/general';
 import { format } from 'date-fns';
 export default {
@@ -211,8 +215,17 @@ export default {
       const minutes = String(Math.floor((eSeconds % 3600) / 60)).padStart(2, '0');
       const seconds = String(Math.floor(eSeconds % 60)).padStart(2, '0');
       return `${hours}:${minutes}:${seconds}`;
+    },
+    deleteTimeEntry(timeEntryId) {
+      this.loading = true;
+      deleteTimeEntry({ time_entry_id: timeEntryId }).then(() => {
+        this.timeEntriesLog = this.timeEntriesLog.filter(entry => entry.id !== timeEntryId);
+        this.loading = false;
+      }).catch(error => {
+        console.error('Error deleting time entry:', error);
+        this.loading = false;
+      });
     }
-
   },
   computed: {
     isTaskFormValid() {
@@ -299,7 +312,7 @@ textarea {
 }
 
 .overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;

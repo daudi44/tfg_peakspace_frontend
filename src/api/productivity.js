@@ -31,3 +31,6 @@ export function lastTimeEntry() {
 export function getTotalTime(data) {
     return axios.post('/total-time', data)
 }
+export function deleteTimeEntry(data) {
+    return axios.post('/delete-time-entry', data)
+}

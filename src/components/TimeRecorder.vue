@@ -196,7 +196,7 @@ export default {
     font-weight: bold;
     background-color: #737373;
     border-radius: 8px;
-    padding: 10px;
+    padding: 10px 0px;
     margin: 20px 0;
 }
 

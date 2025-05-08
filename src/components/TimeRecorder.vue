@@ -81,21 +81,18 @@ export default {
         },
 
         async startTimer() {
-            console.log('Starting timer');
             if (!this.selectedItem) {
                 alert('Please select a task or category to begin tracking.');
                 return;
             }
 
-            const now = new Date().toISOString();
-            this.startedAt = now;
+            this.startedAt = new Date();
             this.isRecording = true;
             this.secondsElapsed = 0;
 
-            // Detectar tipo e id
             const [type, id] = this.selectedItem.split('-');
             const data = {
-                start_time: now,
+                start_time: new Date(),
             };
             if (type === 'task') data.task_id = id;
             if (type === 'cat') data.category_id = id;
@@ -161,7 +158,11 @@ export default {
                     const registrableId = this.lastTimeEntry.registrable_id;
 
                     if (registrableType == 'App\\Models\\Task') {
-                        this.selectedItem = `task-${registrableId}`;
+                        if (this.inProgressTasks.some(task => task.id === registrableId)) {
+                            this.selectedItem = `task-${registrableId}`;
+                        } else {
+                            this.selectedItem = '';
+                        }
                     } else {
                         this.selectedItem = `cat-${registrableId}`;
                     }

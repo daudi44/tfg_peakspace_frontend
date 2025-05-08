@@ -18,7 +18,6 @@
                     <div>
                         <h3>{{ task.name }} - {{ task.category.name }}</h3>
                         <p>{{ task.description }}</p>
-                        <!-- total time -->
                         <p>Total time: {{ calcTotalTime(task.total_time) }} seconds</p>
                     </div>
                     <div>
@@ -141,7 +140,7 @@ export default {
         calcTotalTime(seconds) {
             const hours = Math.floor(seconds / 3600);
             const minutes = Math.floor((seconds % 3600) / 60);
-            const secondsLeft = seconds % 60;
+            const secondsLeft = Math.floor(seconds % 60);
             return `${hours}h ${minutes}m ${secondsLeft}s`;
         }
     },

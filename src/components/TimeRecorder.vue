@@ -17,7 +17,7 @@
 
         <div class="selector-group">
             <label for="task">Select Task or Category</label>
-            <select v-model="selectedItem" class="selector">
+            <select v-model="selectedItem" class="selector" :disabled="isRecording">
                 <optgroup label="Tasks In Progress">
                     <option v-for="task in inProgressTasks" :key="'task-' + task.id" :value="'task-' + task.id">
                         {{ task.name }}

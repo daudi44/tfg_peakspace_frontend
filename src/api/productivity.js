@@ -28,3 +28,6 @@ export function timeEntries() {
 export function lastTimeEntry() {
     return axios.get('/last-time-entry')
 }
+export function getTotalTime(data) {
+    return axios.post('/total-time', data)
+}

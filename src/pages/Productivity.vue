@@ -4,7 +4,7 @@
       <div style="display: flex; flex-direction: column; gap: 15px; flex: 2;">
         <TimeRecorder style="flex: 3;" :key="reloadKey" />
         <UserTimeStatistics style="flex: 2" />
-        <button style="flex: 1;" @click="openTaskCreationModal">add task +</button>
+        <button style="background-color: #5438DC; color: white; font-size: 20px; font-weight: bold; padding: 20px;" @click="openTaskCreationModal">Add Task +</button>
       </div>
       <div style="display: flex; flex-direction: column; gap: 15px; flex: 4;">
         <TasksSection :status="0" :deployed="activeDeployStatus === 0" :key="reloadKey" @task-updated="reloadKey++"

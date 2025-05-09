@@ -15,3 +15,11 @@ export function logoutUser() {
 export function getUser() {
     return axios.get('/user')
 }
+
+export function updateUser(data) {
+    return axios.post('/update-user', data)
+}
+
+export function deleteAccount() {
+    return axios.post('/delete-account')
+}

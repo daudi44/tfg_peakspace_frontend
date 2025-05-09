@@ -3,6 +3,9 @@ import axios from '../lib/axios'
 export function addTask(data) {
     return axios.post('/add-task', data)
 }
+export function updateTask(data) {
+    return axios.post('/update-task', data)
+}
 export function deleteTask(data) {
     return axios.post('/delete-task', data)
 }

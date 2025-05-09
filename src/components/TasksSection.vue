@@ -66,7 +66,7 @@
             </div>
 
             <TaskModal v-if="showEditTaskModal" :availableCategories="availableCategories" :creation="false"
-                :aTasks="availableTasks" @close="showEditTaskModal = false" :selectedTask="selectedTask" @task-updated="" />
+                :aTasks="availableTasks" @close="showEditTaskModal = false" :selectedTask="selectedTask" @task-updated="closeShowEditTaskModal()" />
         </div>
     </div>
 
@@ -170,6 +170,10 @@ export default {
             this.selectedTask = task;
             this.showEditTaskModal = true;
         },
+        closeShowEditTaskModal() {
+            this.showEditTaskModal = false;
+            this.$emit('task-updated');
+        }
     },
     computed: {
         statusName() {

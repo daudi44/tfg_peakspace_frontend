@@ -47,7 +47,9 @@
     </div>
 </template>
 <script>
-import {  addTask } from '../api/productivity';
+import {  addTask, updateTask } from '../api/productivity';
+// import datefns
+import { format, parseISO } from 'date-fns';
 export default {
     name: 'TaskModal',
     props: {
@@ -71,6 +73,7 @@ export default {
     data() {
         return {
             taskForm: {
+                id: null,
                 name: '',
                 description: '',
                 category_id: '',
@@ -89,6 +92,8 @@ export default {
     mounted() {
         if (!this.creation && this.selectedTask) {
             this.taskForm = { ...this.selectedTask };
+            this.taskForm.start_date = format(parseISO(this.taskForm.start_date), 'yyyy-MM-dd');
+            this.taskForm.due_date = format(parseISO(this.taskForm.due_date), 'yyyy-MM-dd');
 
             this.availableTasks = this.aTasks.filter(task => task.id !== this.selectedTask.id);
         }else if (this.creation){

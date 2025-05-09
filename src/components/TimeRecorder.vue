@@ -61,7 +61,6 @@ export default {
             const hours = String(Math.floor(this.secondsElapsed / 3600)).padStart(2, '0');
             const minutes = String(Math.floor((this.secondsElapsed % 3600) / 60)).padStart(2, '0');
             const seconds = String(this.secondsElapsed % 60).padStart(2, '0');
-            console.log('formatted time', hours, minutes, seconds, this.secondsElapsed);
             return `${hours}:${minutes}:${seconds}`;
         }
     },
@@ -119,7 +118,6 @@ export default {
 
             try {
                 await stopTimeEntry({ end_time: now });
-                console.log('Time entry successfully stopped');
             } catch (error) {
                 alert('Could not stop time entry');
             }
@@ -150,7 +148,6 @@ export default {
                             this.secondsElapsed++;
                         }, 1000);
                     }else{
-                        console.log('Time entry found', this.lastTimeEntry);
                         this.isRecording = false;
                     }
                         

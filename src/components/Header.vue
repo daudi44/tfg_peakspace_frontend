@@ -49,6 +49,6 @@ export default {
   width: 100%;
   height: 90px;
   display: flex;
-  z-index: 1000;
+  z-index: 1001;
 }
 </style>

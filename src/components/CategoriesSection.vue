@@ -97,7 +97,6 @@ export default {
                     name: this.newCategoryName,
                     parent_category_id: this.newCategoryParent
                 }).then(async (data) => {
-                    console.log('Category added successfully', data);
                     await this.loadCategories();
                     this.loading = false;
                     this.newCategoryName = '';
@@ -114,7 +113,6 @@ export default {
                 deleteCategory({
                     category_id: categoryId
                 }).then(async () => {
-                    console.log('Category deleted successfully');
                     await this.loadCategories();
                     this.loading = false;
                     this.$emit('categoryUpdated')

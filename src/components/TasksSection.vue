@@ -29,7 +29,7 @@
                             <button style="background-color: #009951; color: white;"
                                 @click="changeStatus(task.id)">Change
                                 Status</button>
-                            <button>Edit</button>
+                            <button @click="editTask(task)">Edit</button>
                             <button style="background-color: #FF4F4D; color: white;"
                                 @click="deleteTask(task.id)">Delete</button>
                         </div>
@@ -64,6 +64,9 @@
                     </div>
                 </div>
             </div>
+
+            <TaskModal v-if="showEditTaskModal" :availableCategories="availableCategories" :creation="false"
+                :aTasks="availableTasks" @close="showEditTaskModal = false" :selectedTask="selectedTask" @task-updated="" />
         </div>
     </div>
 
@@ -71,6 +74,7 @@
 <script>
 import { tasksByStatus, deleteTask, updateTaskStatus } from '../api/productivity';
 import { format } from 'date-fns';
+import TaskModal  from './TaskModal.vue';
 export default {
     props: {
         status: {
@@ -81,6 +85,17 @@ export default {
             type: Boolean,
             default: false,
         },
+        availableCategories: {
+            type: Array,
+            required: true,
+        },
+        availableTasks: {
+            type: Array,
+            required: true,
+        },
+    },
+    components: {
+        TaskModal,
     },
     data() {
         return {
@@ -89,6 +104,15 @@ export default {
             selectedTask: null,
             newStatusValue: null,
             showUpdateStatusModal: false,
+            showEditTaskModal: false,
+            selectedTask: {
+                name: '',
+                description: '',
+                category_id: '',
+                parent_task_id: '',
+                start_date: '',
+                due_date: ''
+            }
         };
     },
     async mounted() {
@@ -99,7 +123,6 @@ export default {
     methods: {
         async loadTasks() {
             return tasksByStatus({ status: this.status }).then((data) => {
-                console.log(data.data);
                 this.tasks = data.data;
             });
         },
@@ -142,7 +165,11 @@ export default {
             const minutes = Math.floor((seconds % 3600) / 60);
             const secondsLeft = Math.floor(seconds % 60);
             return `${hours}h ${minutes}m ${secondsLeft}s`;
-        }
+        },
+        editTask(task) {
+            this.selectedTask = task;
+            this.showEditTaskModal = true;
+        },
     },
     computed: {
         statusName() {

@@ -50,8 +50,8 @@
         </div>
     </div>
     <div style="flex-direction: row; display: flex; gap: 25px;">
-      <MovementsSection style="flex: 1;" :name="'+ Incomes'" :type="1" :categories="availableCategories"/>
-      <MovementsSection style="flex: 1;" :name="'- Outcomes'" :type="0" :categories="availableCategories"/>
+      <MovementsSection style="flex: 1;" :name="'+ Incomes'" :type="1" :categories="availableCategories" :key="reloadKey"/>
+      <MovementsSection style="flex: 1;" :name="'- Outcomes'" :type="0" :categories="availableCategories" :key="reloadKey+1"/>
       <!-- <MovementsSection style="flex: 1;" :name="'/ Subscriptions'" /> -->
     </div>
     <CategoriesSection :type="2" />
@@ -104,6 +104,7 @@ export default {
       userBalance: 0,
       showFirstTimeModal: false,
       loading: false,
+      reloadKey: 0,
     };
   },
   mounted() {
@@ -125,6 +126,7 @@ export default {
           category_id: this.selectedCategory,
           type: this.selectedType == 'income' ? 1 : 0,
         });
+        this.reloadKey += 1;
         this.name = '';
         this.amount = 0;
         this.selectedCategory = 0;

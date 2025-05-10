@@ -4,13 +4,19 @@
             <h3>{{ name }}</h3>
         </div>
         <div class="movements-section-list">
-            <div v-for="(movement, index) in movements" :key="movement.id" class="movements-section-item" :class="{ even: index % 2 === 0, odd: index % 2 !== 0 }">
+            <div v-if="movements.length > 0" v-for="(movement, index) in movements" :key="movement.id" class="movements-section-item" :class="{ even: index % 2 === 0, odd: index % 2 !== 0 }">
                 <span>{{ movement.name }} - {{ getMovementCategory(movement.category_id) }}</span>
                 <span>
                     <span v-if="type == 1">+</span>
                     <span v-else>-</span>
-                    {{movement.amount }} €</span>
+                    {{movement.amount }} €
+                </span>
+                <div style="display: flex; flex-direction: row; gap: 5px;">
+                    <button>Edit</button>
+                    <button>Delete</button>
+                </div>
             </div>
+            <p v-else>There are no movements of this type.</p>
         </div>
     </div>
 </template>

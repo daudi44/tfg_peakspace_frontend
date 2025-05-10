@@ -42,8 +42,8 @@ export default {
     },
     async logout() {
       const userStore = useUserStore()
-      await logoutUser();
       userStore.logout();
+      await logoutUser();
 
       this.$router.push('/login')
     },

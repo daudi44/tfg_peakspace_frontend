@@ -43,9 +43,9 @@ export default {
         userStore.setToken(loginData.data.token)
 
         const userData = await getUser(loginData.data.token)
+        console.log('userData:', userData)
         userStore.setUser(userData.data)
-
-        console.log(userData.data)
+        console.log('userStore.user:', userStore.user)
 
         this.$router.push('/dashboard')
       }catch (error) {

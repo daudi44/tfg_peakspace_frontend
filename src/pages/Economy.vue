@@ -75,8 +75,8 @@
 
       <div v-if="loading" class="overlay" style="z-index: 11;">
         <div class="spinner">
+        </div>
       </div>
-    </div>
   </div>
 </template>
 

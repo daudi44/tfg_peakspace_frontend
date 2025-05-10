@@ -13,7 +13,7 @@
                 </span>
                 <div style="display: flex; flex-direction: row; gap: 5px;">
                     <button>Edit</button>
-                    <button>Delete</button>
+                    <button style="background-color: #FF4F4D; color: white; padding: 5px 10px;" @click="removeMovement(movement.id)">Delete</button>
                 </div>
             </div>
             <p v-else>There are no movements of this type.</p>
@@ -21,7 +21,7 @@
     </div>
 </template>
 <script>
-import { movementsByType } from '../api/economy.js';
+import { movementsByType, deleteMovement } from '../api/economy.js';
 export default {
     name: 'MovementsSection',
     props: {
@@ -43,7 +43,7 @@ export default {
     },  
     data() {
         return {
-            movements: []
+            movements: [],
         }
     },
     methods: {
@@ -60,6 +60,14 @@ export default {
         getMovementCategory(categoryId) {
             const category = this.categories.find(category => category.id === categoryId);
             return category ? category.name : 'Unknown';
+        },
+        removeMovement(movementId) {
+            deleteMovement({id: movementId})
+            .then(() => {
+                this.movements = this.movements.filter(movement => movement.id !== movementId);
+            }).catch(error => {
+                console.error('Error deleting movement:', error);
+            });
         }
     }
 }
@@ -100,4 +108,36 @@ h3 {
 .movements-section-list{
     max-height: 45;
 }
+
+
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(4px);
+    background-color: rgba(255, 255, 255, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    border-radius: 8px;
+  }
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ccc;
+    border-top-color: #5438DC;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
 </style>

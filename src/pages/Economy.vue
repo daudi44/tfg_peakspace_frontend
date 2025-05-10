@@ -50,9 +50,9 @@
         </div>
     </div>
     <div style="flex-direction: row; display: flex; gap: 25px;">
-      <MovementsSection style="flex: 1;" :name="'+ Incomes'" />
-      <MovementsSection style="flex: 1;" :name="'- Outcomes'" />
-      <MovementsSection style="flex: 1;" :name="'/ Subscriptions'" />
+      <MovementsSection style="flex: 1;" :name="'+ Incomes'" :type="1" :categories="availableCategories"/>
+      <MovementsSection style="flex: 1;" :name="'- Outcomes'" :type="0" :categories="availableCategories"/>
+      <!-- <MovementsSection style="flex: 1;" :name="'/ Subscriptions'" /> -->
     </div>
     <CategoriesSection :type="2" />
 

@@ -12,7 +12,7 @@
                     {{movement.amount }} €
                 </span>
                 <div style="display: flex; flex-direction: row; gap: 5px;">
-                    <button>Edit</button>
+                    <!-- <button>Edit</button> -->
                     <button style="background-color: #FF4F4D; color: white; padding: 5px 10px;" @click="removeMovement(movement.id)">Delete</button>
                 </div>
             </div>
@@ -65,6 +65,7 @@ export default {
             deleteMovement({id: movementId})
             .then(() => {
                 this.movements = this.movements.filter(movement => movement.id !== movementId);
+                this.$emit('refresh-balance');
             }).catch(error => {
                 console.error('Error deleting movement:', error);
             });

@@ -34,7 +34,7 @@
                             <input type="text" name="categoryName" id="categoryName" placeholder="Name"
                                 v-model="newCategoryName" style="border: 1px solid #D9D9D9; padding: 10px 20px; border-radius: 8px; color: #2C2C2C; font-weight: bold;" />
                             <select name="parentCategory" id="parentCategory" v-model="newCategoryParent" style="border: 1px solid #D9D9D9; padding: 10px 20px; border-radius: 8px;color: #2C2C2C; font-weight: bold;">
-                                <option value="">Select parent category</option>
+                                <option value="" selected>Select parent category</option>
                                 <option v-for="category in categories" :key="category.id" :value="category.id">{{
                                     category.name }}</option>
                             </select>

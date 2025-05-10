@@ -15,3 +15,6 @@ export function movementsByType(data) {
 export function lastMonthMovements() {
   return axios.get('/last-month-movements')
 }
+export function setBalance(data) {
+  return axios.post('/set-balance', data)
+}

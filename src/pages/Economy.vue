@@ -32,7 +32,7 @@
             Add +
           </button>
         </div>
-        <!-- user balance -->
+        
         <div style="background-color: #CDCDCD; border-radius: 8px; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); padding: 10px 20px; flex: 1;">
           <h2 style="color: white; margin: 0;">Your balance:</h2>
           <h2 style="color: #2C2C2C; margin: 0;">{{userBalance}}€</h2>
@@ -44,11 +44,27 @@
       <MovementsSection style="flex: 1;" :name="'/ Subscriptions'" />
     </div>
     <CategoriesSection :type="2" />
+
+    <div v-if="showFirstTimeModal" class="modal">
+      <div class="modal-content">
+        <h2>Welcome to the Economy Page!</h2>
+        <p>Here you can manage your movements, and track your expenses.</p>
+        <p>After start, you must indicate your total balance at this moment: </p>
+
+        <div style="display: flex; flex-direction: column; gap: 20px; align-items: center; justify-content: center;">
+          <div>
+            <input type="number" v-model="newUserBalance" placeholder="Enter your balance" style="border-radius: 8px; padding: 15px 20px; background-color: #C5C5C5; border: none;" /> €
+          </div>
+          <button :disabled="newUserBalance == null || newUserBalance <= 0" @click="setUserBalance" style="background-color: #5438DC; color: white; font-weight: bold; padding: 10px 20px;">Continue</button>
+        </div>
+        
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { addMovement } from '../api/economy.js';
+import { addMovement, setBalance } from '../api/economy.js';
 import CategoriesSection from '../components/CategoriesSection.vue';
 import MovementsSection from '../components/MovementsSection.vue';
 import { useUserStore } from '../stores/user';
@@ -66,7 +82,9 @@ export default {
       selectedType: false,
       name: '',
       amount: 0,
+      newUserBalance: null,
       userBalance: 0,
+      showFirstTimeModal: false,
     };
   },
   mounted() {
@@ -75,7 +93,8 @@ export default {
     if (userStore.user.balance != null) {
       this.userBalance = userStore.user?.balance;
     } else{
-      console.log('User balance is null');
+      console.log('User balance is null', userStore.user);
+      this.showFirstTimeModal = true;
     }
   },
   methods: {
@@ -90,6 +109,20 @@ export default {
       } catch (error) {
         console.error('Error adding movement:', error);
       }
+    },
+    async setUserBalance() {
+      const userStore = useUserStore();
+      userStore.user.balance = this.newUserBalance;
+      userStore.setUser(userStore.user);
+      try {
+        await setBalance({
+          balance: this.newUserBalance
+        });
+      } catch (error) {
+        console.error('Error setting balance:', error);
+      }
+      this.userBalance = this.newUserBalance;
+      this.showFirstTimeModal = false;
     },
     async fetchAvailableCategories() {
       try {
@@ -113,4 +146,28 @@ export default {
     margin: 0;
   }
   
+  .modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 500;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+  }
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+    text-align: center;
+  }
 </style>

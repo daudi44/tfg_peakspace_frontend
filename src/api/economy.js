@@ -18,3 +18,6 @@ export function lastMonthMovements() {
 export function setBalance(data) {
   return axios.post('/set-balance', data)
 }
+export function getBalance() {
+  return axios.get('/get-balance')
+}

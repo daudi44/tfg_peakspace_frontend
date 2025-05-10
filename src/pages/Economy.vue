@@ -7,9 +7,20 @@
             <div style="border-right: 1px solid white; padding-right: 10px; margin-right: 10px; flex: 3;">
               <h2>Add movement</h2>
               <div style="display: flex; flex-direction: row; gap: 5px;">
-                <div style="display: flex; flex-direction: row; gap: 10px; background-color: #C5C5C5; padding: 7px 15px; border-radius: 8px; color: #1E1E1E; flex: 1;">               <span>Income</span>
-                  <input type="checkbox" name="movementType" v-model="selectedType" />
-                  <label>Outcome</label>
+                
+                <div style="display: flex; gap: 10px;">
+                  <label 
+                    :class="['toggle-option', selectedType === 'income' ? 'active' : '']" 
+                    @click="selectedType = 'income'"
+                  >
+                    Income
+                  </label>
+                  <label 
+                    :class="['toggle-option', selectedType === 'outcome' ? 'active' : '']" 
+                    @click="selectedType = 'outcome'"
+                  >
+                    Outcome
+                  </label>
                 </div>
                 <input type="text" placeholder="Name" v-model="name" style=" border-radius: 8px; padding: 5px; background-color: #C5C5C5; border: none; flex: 2;" />
               </div>
@@ -64,11 +75,12 @@
 </template>
 
 <script>
-import { addMovement, setBalance } from '../api/economy.js';
+import { addMovement, setBalance, getBalance } from '../api/economy.js';
 import CategoriesSection from '../components/CategoriesSection.vue';
 import MovementsSection from '../components/MovementsSection.vue';
 import { useUserStore } from '../stores/user';
 import { getEconomyCategories } from '../api/general.js';
+import { getUser } from '../api/auth.js';
 export default {
   name: 'Economy',
   components: {
@@ -79,7 +91,7 @@ export default {
     return {
       availableCategories: [],
       selectedCategory: 0,
-      selectedType: false,
+      selectedType: '',
       name: '',
       amount: 0,
       newUserBalance: null,
@@ -91,7 +103,7 @@ export default {
     this.fetchAvailableCategories();
     const userStore = useUserStore();
     if (userStore.user.balance != null) {
-      this.userBalance = userStore.user?.balance;
+      this.getUserBalance();
     } else{
       console.log('User balance is null', userStore.user);
       this.showFirstTimeModal = true;
@@ -101,13 +113,30 @@ export default {
     async addMovement() {
       try {
         const response = await addMovement({
+          name: this.name,
           amount: this.amount,
-          categoryId: this.selectedCategory,
-          type: this.selectedType,
+          category_id: this.selectedCategory,
+          type: this.selectedType == 'income' ? 1 : 0,
         });
+        this.name = '';
+        this.amount = 0;
+        this.selectedCategory = 0;
+        this.selectedType = '';
+        this.getUserBalance();
         console.log('Movement added:', response);
       } catch (error) {
         console.error('Error adding movement:', error);
+      }
+    },
+    async getUserBalance() {
+      try {
+        const balance = await getBalance();
+        const userStore = useUserStore();
+        userStore.user.balance = balance.data.balance;
+        userStore.setUser(userStore.user);
+        this.userBalance = userStore.user.balance;
+      } catch (error) {
+        console.error('Error fetching user:', error);
       }
     },
     async setUserBalance() {
@@ -135,7 +164,7 @@ export default {
   },
   computed: {
     createMovementFieldsFilled() {
-      return this.selectedCategory && this.amount > 0 && this.name != '';
+      return this.selectedCategory && this.amount > 0 && this.name != '' && this.selectedType != '';
     },
   },
 }
@@ -170,4 +199,20 @@ export default {
     border-radius: 8px;
     text-align: center;
   }
+
+  .toggle-option {
+  background-color: #C5C5C5;
+  color: #1E1E1E;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  user-select: none;
+}
+.toggle-option.active {
+  background-color: #5438DC;
+  color: white;
+  font-weight: bold;
+}
+
 </style>

@@ -39,7 +39,6 @@
                                     category.name }}</option>
                             </select>
                         </div>
-                        <!-- color picker todo -->
                         <button @click="addCategory"
                             style="background-color: #5438DC; color: white; padding: 5px 10px;">Add +</button>
                     </div>

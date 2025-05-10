@@ -40,12 +40,10 @@ export default {
     navigateTo(route) {
       this.$router.push(route)
     },
-    logout() {
+    async logout() {
       const userStore = useUserStore()
-      logoutUser({
-        token: this.token
-      });
-      userStore.logout()
+      await logoutUser();
+      userStore.logout();
 
       this.$router.push('/login')
     },

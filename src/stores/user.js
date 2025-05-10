@@ -18,6 +18,9 @@ export const useUserStore = defineStore('user', {
             this.token = null
             this.user = null
             localStorage.removeItem('token')
+        },
+        getBalance() {
+            return this.user ? this.user.balance : 0
         }
     }
 })

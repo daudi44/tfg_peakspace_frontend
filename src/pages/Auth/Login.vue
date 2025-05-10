@@ -45,6 +45,8 @@ export default {
         const userData = await getUser(loginData.data.token)
         userStore.setUser(userData.data)
 
+        console.log(userData.data)
+
         this.$router.push('/dashboard')
       }catch (error) {
         alert('Login failed. Please check your credentials.')

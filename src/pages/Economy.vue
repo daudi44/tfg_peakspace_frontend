@@ -71,6 +71,12 @@
         
       </div>
     </div>
+
+
+      <div v-if="loading" class="overlay" style="z-index: 11;">
+        <div class="spinner">
+      </div>
+    </div>
   </div>
 </template>
 
@@ -97,6 +103,7 @@ export default {
       newUserBalance: null,
       userBalance: 0,
       showFirstTimeModal: false,
+      loading: false,
     };
   },
   mounted() {
@@ -129,12 +136,14 @@ export default {
       }
     },
     async getUserBalance() {
+      this.loading = true;
       try {
         const balance = await getBalance();
         const userStore = useUserStore();
         userStore.user.balance = balance.data.balance;
         userStore.setUser(userStore.user);
         this.userBalance = userStore.user.balance;
+        this.loading = false;
       } catch (error) {
         console.error('Error fetching user:', error);
       }
@@ -144,6 +153,7 @@ export default {
       userStore.user.balance = this.newUserBalance;
       userStore.setUser(userStore.user);
       try {
+        this.loading = true;
         await setBalance({
           balance: this.newUserBalance
         });
@@ -152,14 +162,17 @@ export default {
       }
       this.userBalance = this.newUserBalance;
       this.showFirstTimeModal = false;
+        this.loading = false;
     },
     async fetchAvailableCategories() {
+      this.loading = true;
       try {
         const response = await getEconomyCategories();
         this.availableCategories = response.data.categories;
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
+      this.loading = false;
     },
   },
   computed: {
@@ -215,4 +228,33 @@ export default {
   font-weight: bold;
 }
 
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(4px);
+    background-color: rgba(255, 255, 255, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    border-radius: 8px;
+  }
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ccc;
+    border-top-color: #5438DC;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
 </style>

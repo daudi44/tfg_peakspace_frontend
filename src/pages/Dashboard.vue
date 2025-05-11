@@ -9,13 +9,13 @@
           <p style="font-size: 70px; font-weight: bold; margin:0px">{{ formatElapsed(today) }}</p>
           <p style="margin: 0;">hours:minutes</p>
         </div>
-        <button style="padding: 10px 20px;">Navigate to productivity zone</button>
+        <button style="padding: 10px 20px;" @click="navigateTo('/productivity')">Navigate to productivity zone</button>
         <div style="width: 100%; background-color: #5438DC; border-radius: 8px;">
-          <div style="display: flex; flex-direction: row; padding: 5px 10px; justify-content: space-between;">
-            <p>This week</p>
+          <div style="display: flex; flex-direction: row; padding: 15px 40px; justify-content: space-between;">
+            <p style="font-size: 20px; font-weight: bold; margin: 0">This week</p>
             <div>
-              <p>{{ formatElapsed(thisWeek) }}</p>
-              <p>hours:minutes</p>
+              <p style="font-size: 40px; font-weight: bold; margin: 0;">{{ formatElapsed(thisWeek) }}</p>
+              <p style="margin: 0">hours:minutes</p>
             </div>
           </div>
 
@@ -96,6 +96,9 @@ export default {
       } catch (error) {
         console.error('Error fetching user:', error);
       }
+    },
+    navigateTo(route) {
+      this.$router.push(route)
     },
   },
 }

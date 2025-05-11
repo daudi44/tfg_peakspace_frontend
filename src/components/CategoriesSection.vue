@@ -23,6 +23,10 @@
                     <div v-if="categories.length > 0" v-for="category in categories" :key="category.id"
                         style="display: flex; justify-content: space-between; align-items: center; background-color: white;  padding: 5px 15px; border-radius: 8px;">
                         <h3>{{ category.name }}</h3>
+                        <p v-if="type == 1">{{ calcTotalTime(Math.floor(category.all_time)) }} seconds</p>
+                        <p v-if="type == 1">{{ category.total_tasks }} tasks</p>
+                        <p v-if="type == 2">{{ category.total_spent_money }} €</p>
+
                         <button @click="deleteCategory(category.id)"
                             style="background-color: #FF4F4D; color: white; padding: 5px 10px;">Delete</button>
                     </div>
@@ -120,6 +124,13 @@ export default {
             } catch (error) {
                 console.error('Error deleting category:', error);
             }
+        },
+        
+        calcTotalTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secondsLeft = Math.floor(seconds % 60);
+            return `${hours}h ${minutes}m ${secondsLeft}s`;
         },
     }
 }

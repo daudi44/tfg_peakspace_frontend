@@ -57,7 +57,7 @@
 
     <EconomyChart v-if="userBalance != 0" style="border-top: 1px solid #000;" :key="reloadKey" :balance="userBalance"/>
 
-    <CategoriesSection style="border-top: 1px solid #000; margin-bottom: 100px;" :type="2"  @category-updated="fetchAvailableCategories"/>
+    <CategoriesSection style="border-top: 1px solid #000; margin-bottom: 100px;" :type="2" :key="reloadKey"  @category-updated="fetchAvailableCategories"/>
 
     <div v-if="showFirstTimeModal" class="modal">
       <div class="modal-content">
@@ -166,6 +166,7 @@ export default {
         await setBalance({
           balance: this.newUserBalance
         });
+        this.reloadKey += 1;
       } catch (error) {
         console.error('Error setting balance:', error);
       }

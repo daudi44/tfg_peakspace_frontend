@@ -57,7 +57,7 @@
 
     <EconomyChart v-if="userBalance != 0" style="border-top: 1px solid #000;" :key="reloadKey" :balance="userBalance"/>
 
-    <CategoriesSection style="border-top: 1px solid #000;" :type="2"  @category-updated="fetchAvailableCategories"/>
+    <CategoriesSection style="border-top: 1px solid #000; margin-bottom: 100px;" :type="2"  @category-updated="fetchAvailableCategories"/>
 
     <div v-if="showFirstTimeModal" class="modal">
       <div class="modal-content">
@@ -144,6 +144,7 @@ export default {
         const balance = await getBalance();
         if (balance.data.balance == null) {
           this.showFirstTimeModal = true;
+          return;
         } else {
           this.userBalance = balance.data.balance;
         }

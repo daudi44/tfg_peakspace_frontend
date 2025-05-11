@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <h2 style="margin-top: 10px; margin-bottom: 0;">Last 30 days</h2>
-        <div style="background-color: white; border-radius: 8px; padding: 20px; height: 300px;">
+    <div style="margin-bottom: 40px;">
+        <h2 v-if="!dashboard" style="margin-top: 30px; margin-bottom: 0;">Last 30 days</h2>
+        <div style="background-color: #F1F1F1; border-radius: 8px; padding: 20px; height: 350px;">
             <Line :data="chartData" :options="chartOptions" :key="chartKey" />
         </div>
     </div>
@@ -29,7 +29,7 @@ export default {
                     label: 'Balance',
                     data: [],
                     borderColor: '#7E4DF6',
-                    backgroundColor: 'rgba(84, 56, 220, 0.2)',
+                    backgroundColor: '#000',
                     fill: true,
                     tension: 0,
                 }
@@ -55,6 +55,10 @@ export default {
         balance: {
             type: Number,
             required: true
+        },
+        dashboard: {
+            type: Boolean,
+            default: false
         }
     },
   async mounted() {

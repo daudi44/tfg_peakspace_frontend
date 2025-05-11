@@ -54,7 +54,10 @@
       <MovementsSection style="flex: 1;" :name="'- Outcomes'" :type="0" :categories="availableCategories" :key="reloadKey+1" @refresh-balance="getUserBalance"/>
       <!-- <MovementsSection style="flex: 1;" :name="'/ Subscriptions'" /> -->
     </div>
-    <CategoriesSection :type="2"  @category-updated="fetchAvailableCategories"/>
+
+    <EconomyChart v-if="userBalance != 0" style="border-top: 1px solid #000;" :key="reloadKey" :balance="userBalance"/>
+
+    <CategoriesSection style="border-top: 1px solid #000;" :type="2"  @category-updated="fetchAvailableCategories"/>
 
     <div v-if="showFirstTimeModal" class="modal">
       <div class="modal-content">
@@ -81,6 +84,7 @@
 </template>
 
 <script>
+import EconomyChart from '../components/EconomyChart.vue';
 import { addMovement, setBalance, getBalance } from '../api/economy.js';
 import CategoriesSection from '../components/CategoriesSection.vue';
 import MovementsSection from '../components/MovementsSection.vue';
@@ -92,6 +96,7 @@ export default {
   components: {
     CategoriesSection,
     MovementsSection,
+    EconomyChart
   },
   data() {
     return {

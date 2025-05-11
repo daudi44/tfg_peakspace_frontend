@@ -12,8 +12,8 @@ export function deleteMovement(data) {
 export function movementsByType(data) {
   return axios.post('/movements', data)
 }
-export function lastMonthMovements() {
-  return axios.get('/last-month-movements')
+export function lastMonthMovements(data) {
+  return axios.post('/last-month-movements', data)
 }
 export function setBalance(data) {
   return axios.post('/set-balance', data)

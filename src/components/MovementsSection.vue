@@ -4,7 +4,8 @@
             <h3>{{ name }}</h3>
         </div>
         <div class="movements-section-list">
-            <div v-if="movements.length > 0" v-for="(movement, index) in movements" :key="movement.id" class="movements-section-item" :class="{ even: index % 2 === 0, odd: index % 2 !== 0 }">
+            <div v-if="movements.length > 0" v-for="(movement, index) in movements" :key="movement.id" class="movements-section-item" :class="{ even: index % 2 === 0, odd: index % 2 !== 0,
+                        last: index === movements.length - 1 }">
                 <span>{{ movement.name }} - {{ getMovementCategory(movement.category_id) }}</span>
                 <span>
                     <span v-if="type == 1">+</span>
@@ -140,5 +141,10 @@ h3 {
     to {
       transform: rotate(360deg);
     }
+  }
+
+  .last {
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
   }
 </style>

@@ -32,7 +32,7 @@
             <div style="flex: 2; justify-content: space-between; display: flex; flex-direction: column; gap: 5px">
               <h2>Category</h2>
               <!-- category selector -->
-              <select v-model="selectedCategory" style="width: 100%; flex: 1; border-radius: 8px; padding: 5px; background-color: #C5C5C5; border: none;">
+              <select v-model="selectedCategory" :key="categoriesListKey" style="width: 100%; flex: 1; border-radius: 8px; padding: 5px; background-color: #C5C5C5; border: none;">
                 <option :value="0" selected>Select a category</option>
                 <option v-for="category in availableCategories" :key="category.id" :value="category.id">{{ category.name }}</option>
               </select>
@@ -54,7 +54,7 @@
       <MovementsSection style="flex: 1;" :name="'- Outcomes'" :type="0" :categories="availableCategories" :key="reloadKey+1" @refresh-balance="getUserBalance"/>
       <!-- <MovementsSection style="flex: 1;" :name="'/ Subscriptions'" /> -->
     </div>
-    <CategoriesSection :type="2" />
+    <CategoriesSection :type="2"  @category-updated="fetchAvailableCategories"/>
 
     <div v-if="showFirstTimeModal" class="modal">
       <div class="modal-content">
@@ -105,17 +105,13 @@ export default {
       showFirstTimeModal: false,
       loading: false,
       reloadKey: 0,
+      categoriesListKey: 0,
     };
   },
   mounted() {
     this.fetchAvailableCategories();
-    const userStore = useUserStore();
-    if (userStore.user.balance != null) {
+
       this.getUserBalance();
-    } else{
-      console.log('User balance is null', userStore.user);
-      this.showFirstTimeModal = true;
-    }
   },
   methods: {
     async addMovement() {
@@ -141,6 +137,11 @@ export default {
       this.loading = true;
       try {
         const balance = await getBalance();
+        if (balance.data.balance == null) {
+          this.showFirstTimeModal = true;
+        } else {
+          this.userBalance = balance.data.balance;
+        }
         const userStore = useUserStore();
         userStore.user.balance = balance.data.balance;
         userStore.setUser(userStore.user);
@@ -171,6 +172,7 @@ export default {
       try {
         const response = await getEconomyCategories();
         this.availableCategories = response.data.categories;
+        this.categoriesListKey += 1;
       } catch (error) {
         console.error('Error fetching categories:', error);
       }

@@ -20,14 +20,15 @@
             <div
                 style="background-color: #F1F1F1; border-radius: 8px; padding: 20px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);">
                 <div class="category-grid">
-                    <div v-for="category in categories" :key="category.id"
+                    <div v-if="categories.length > 0" v-for="category in categories" :key="category.id"
                         style="display: flex; justify-content: space-between; align-items: center; background-color: white;  padding: 5px 15px; border-radius: 8px;">
                         <h3>{{ category.name }}</h3>
                         <button @click="deleteCategory(category.id)"
                             style="background-color: #FF4F4D; color: white; padding: 5px 10px;">Delete</button>
                     </div>
+                    <p v-else>You don't have any category created, add the first one!</p>
                 </div>
-                <div>
+                <div style="border-top: 1px solid #000;">
                     <h3>Add category</h3>
                     <div style="display: flex; flex-direction: row; justify-content: space-between;">
                         <div style="display: flex; gap: 20px;">

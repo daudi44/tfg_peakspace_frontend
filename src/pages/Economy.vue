@@ -49,7 +49,7 @@
           <h2 style="color: #2C2C2C; margin: 0;">{{userBalance}}€</h2>
         </div>
     </div>
-    <div style="flex-direction: row; display: flex; gap: 25px;">
+    <div style="flex-direction: row; display: flex; gap: 5px;">
       <MovementsSection style="flex: 1;" :name="'+ Incomes'" :type="1" :categories="availableCategories" :key="reloadKey" @refresh-balance="getUserBalance"/>
       <MovementsSection style="flex: 1;" :name="'- Outcomes'" :type="0" :categories="availableCategories" :key="reloadKey+1" @refresh-balance="getUserBalance"/>
       <SubscriptionList style="flex: 1;" :categories="availableCategories" :key="reloadKey+2"/>

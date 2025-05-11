@@ -76,7 +76,7 @@ export default {
 </script>
 <style scoped>
 .movements-section {
-    margin: 20px;
+    margin: 10px 0px;
     border-radius: 8px;
     background-color: #F1F1F1;
 }

@@ -21,3 +21,12 @@ export function setBalance(data) {
 export function getBalance() {
   return axios.get('/get-balance')
 }
+export function addSubscription(data) {
+  return axios.post('/add-subscription', data)
+}
+export function deleteSubscription(data) {
+  return axios.post('/delete-subscription', data)
+}
+export function getSubscriptions() {
+  return axios.get('/subscriptions')
+}

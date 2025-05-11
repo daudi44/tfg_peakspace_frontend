@@ -52,10 +52,10 @@
     <div style="flex-direction: row; display: flex; gap: 25px;">
       <MovementsSection style="flex: 1;" :name="'+ Incomes'" :type="1" :categories="availableCategories" :key="reloadKey" @refresh-balance="getUserBalance"/>
       <MovementsSection style="flex: 1;" :name="'- Outcomes'" :type="0" :categories="availableCategories" :key="reloadKey+1" @refresh-balance="getUserBalance"/>
-      <!-- <MovementsSection style="flex: 1;" :name="'/ Subscriptions'" /> -->
+      <SubscriptionList style="flex: 1;" :categories="availableCategories" :key="reloadKey+2"/>
     </div>
 
-    <EconomyChart v-if="userBalance != 0" style="border-top: 1px solid #000;" :key="reloadKey" :balance="userBalance"/>
+    <EconomyChart v-if="userBalance != 0" style="border-top: 1px solid #000;" :key="reloadKey" :balance="userBalance * 1"/>
 
     <CategoriesSection style="border-top: 1px solid #000; margin-bottom: 100px;" :type="2" :key="reloadKey"  @category-updated="fetchAvailableCategories"/>
 
@@ -88,6 +88,7 @@ import EconomyChart from '../components/EconomyChart.vue';
 import { addMovement, setBalance, getBalance } from '../api/economy.js';
 import CategoriesSection from '../components/CategoriesSection.vue';
 import MovementsSection from '../components/MovementsSection.vue';
+import SubscriptionList from '../components/SubscriptionList.vue';
 import { useUserStore } from '../stores/user';
 import { getEconomyCategories } from '../api/general.js';
 import { getUser } from '../api/auth.js';
@@ -96,7 +97,8 @@ export default {
   components: {
     CategoriesSection,
     MovementsSection,
-    EconomyChart
+    EconomyChart,
+    SubscriptionList
   },
   data() {
     return {

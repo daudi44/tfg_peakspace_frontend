@@ -2,7 +2,7 @@
     <div>
         <h2>{{ type == 1 ? 'Productivity' : 'Economy' }} Categories</h2>
         <div class="section-container">
-            <div
+            <div v-if="false"
                 style="display: flex; flex-direction: row; gap: 25px; background-color: #2C2C2C; border-radius: 8px; color: white; padding: 0px 15px;">
                 <div v-if="type == 2" style="display: flex; flex-direction: row; gap: 15px; align-items: center;">
                     <h3>Type</h3>

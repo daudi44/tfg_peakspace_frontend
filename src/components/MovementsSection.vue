@@ -17,7 +17,7 @@
                     <button style="background-color: #FF4F4D; color: white; padding: 5px 10px;" @click="removeMovement(movement.id)">Delete</button>
                 </div>
             </div>
-            <p v-else>There are no movements of this type.</p>
+            <p style="padding-left: 10px;" v-else>There are no movements of this type.</p>
         </div>
     </div>
 </template>

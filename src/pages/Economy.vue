@@ -45,7 +45,7 @@
         </div>
         
         <div style="background-color: #CDCDCD; border-radius: 8px; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); padding: 10px 20px; flex: 1;">
-          <h2 style="color: white; margin: 0;">Your balance:</h2>
+          <h3 style="color: white; margin: 0;">Your balance:</h3>
           <h2 style="color: #2C2C2C; margin: 0;">{{userBalance}}€</h2>
         </div>
     </div>
